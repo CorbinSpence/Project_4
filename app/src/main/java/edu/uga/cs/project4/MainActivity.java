@@ -22,5 +22,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //this test proves pushing works
+
+        Resources res = getResources();
+
+        ImageView img = (ImageView) findViewById(R.id.imageView);
+        img.setImageResource(R.drawable.exquizit);
+
+        TextView txt = findViewById(R.id.textView);
+        InputStream in = res.openRawResource(R.raw.splash);
+
+        byte[] a = new byte[0];
+
+        try {
+            a = new byte[ in.available() ];
+            in.read( a );
+            txt.setText( new String( a ) );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    private class MyTask extends AsyncTask<String,Integer,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+    }
+
 }

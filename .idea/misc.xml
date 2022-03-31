@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android_Studio/Projects/Project_4x/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android_Studio/Projects/Project_4x/app/src/main/res/layout/activity_quiz.xml" value="0.1" />
+        <entry key="..\:/Android_Studio/Projects/Project_4x/app/src/main/res/layout/activity_results.xml" value="0.2015625" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
