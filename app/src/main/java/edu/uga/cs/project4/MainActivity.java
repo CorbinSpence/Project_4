@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,23 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        final Button button1 = findViewById(R.id.button);
+        button1.setOnClickListener( new View.OnClickListener() {
+            public void onClick( View v ) {
+                Intent intent = new Intent( getApplicationContext(), QuizActivity.class );
+                startActivity(intent);
+            }
+        });
+
+        final Button button2 = findViewById(R.id.button2);
+        button2.setOnClickListener( new View.OnClickListener() {
+            public void onClick( View v ) {
+                Intent intent = new Intent( getApplicationContext(), ResultsActivity.class );
+                startActivity(intent);
+            }
+        });
+
     }
 
     private class MyTask extends AsyncTask<String,Integer,String> {
