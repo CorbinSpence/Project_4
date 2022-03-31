@@ -15,6 +15,7 @@ import com.opencsv.CSVReader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +58,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Country[] readCountries;
+
+        try {
+            InputStream in_s = getAssets().open("country_continent.csv");
+
+            CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
+
+            String[] nextRow;
+
+            while( (nextRow = reader.readNext() ) != null) {
+
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
