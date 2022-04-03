@@ -4,9 +4,18 @@ public class Country {
     public String name;
     public String continent;
 
-    public Country(String name, String continent ) {
+    public Country() {
+
+    }
+
+    public void setName( String name ) {
         this.name = name;
+    }
+
+    public void setContinent( String continent ) {
         this.continent = continent;
     }
+
+
 
 }
