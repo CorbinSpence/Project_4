@@ -3,14 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android_Studio/Projects/Project_4x/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Android_Studio/Projects/Project_4x/app/src/main/res/layout/activity_quiz.xml" value="0.1" />
-        <entry key="..\:/Android_Studio/Projects/Project_4x/app/src/main/res/layout/activity_results.xml" value="0.2015625" />
+        <entry key="..\:/corbi/Project_4/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/corbi/Project_4/app/src/main/res/layout/activity_quiz.xml" value="0.18802083333333333" />
+        <entry key="..\:/corbi/Project_4/app/src/main/res/layout/activity_results.xml" value="0.18802083333333333" />
       </map>
     </option>
   </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android API 29 Platform" project-jdk-type="Android SDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
