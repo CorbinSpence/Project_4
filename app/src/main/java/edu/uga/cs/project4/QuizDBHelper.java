@@ -16,8 +16,8 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     // db columns
     public static final String TABLE_COUNTRIES = "COUNTRIES";
     public static final String COUNTRY_ID ="_id";
-    public static final String COUNTRY_NAME = "";
-    public static final String COUNTRY_CONTINENT = "";
+    public static final String COUNTRY_NAME = "country_name";
+    public static final String COUNTRY_CONTINENT = "country_continent";
 
     public static final String CREATE_COUNTRIES =
             "create table " + TABLE_COUNTRIES + " ("

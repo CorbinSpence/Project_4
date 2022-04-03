@@ -3,9 +3,11 @@ package edu.uga.cs.project4;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             String[] nextRow;
             int i = 0;
             while( (nextRow = reader.readNext() ) != null) {
+                readCountries[i] = new Country();
                 readCountries[i].name = nextRow[0];
                 readCountries[i].continent = nextRow[1];
                 i++;
@@ -82,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
             readCountries[count].setID(id);
             count++;
         }
+
+        /*Cursor cursor = writeDB.query( "COUNTRIES", new String[]{"country_name"}, null, null, null, null, null, null);
+        cursor.moveToFirst();
+        @SuppressLint("Range") String yeet = cursor.getString( cursor.getColumnIndex("country_name"));
+       // txt.setText( yeet ) ;*/
 
         final Button button1 = findViewById(R.id.button);
         button1.setOnClickListener( new View.OnClickListener() {
