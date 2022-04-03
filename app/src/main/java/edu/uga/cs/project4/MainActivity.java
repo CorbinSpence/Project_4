@@ -43,17 +43,45 @@ public class MainActivity extends AppCompatActivity {
         byte[] a = new byte[0];
 
         try {
-            a = new byte[ in.available() ];
-            in.read( a );
-            txt.setText( new String( a ) );
+            a = new byte[in.available()];
+            in.read(a);
+            txt.setText(new String(a));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        //opens csv file and inserts values to Country array
+        try {
+            InputStream in_s = getAssets().open("country_continent.csv");
+
+            CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
+
+            String[] nextRow;
+            int i = 0;
+            while( (nextRow = reader.readNext() ) != null) {
+                readCountries[i].name = nextRow[0];
+                readCountries[i].continent = nextRow[1];
+                i++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //creates database from Country Array
         QuizDBHelper db = QuizDBHelper.getInstance(this);
-        db.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(QuizDBHelper.COUNTRY_ID, );
+        SQLiteDatabase writeDB = db.getWritableDatabase();
+        int count = 0;
+        while (count<195){
+            ContentValues cv = new ContentValues();
+            cv.put(QuizDBHelper.COUNTRY_NAME, readCountries[count].name);
+            cv.put(QuizDBHelper.COUNTRY_CONTINENT, readCountries[count].continent);
+
+            long id = writeDB.insert(QuizDBHelper.TABLE_COUNTRIES, null, cv);
+
+            readCountries[count].setID(id);
+            count++;
+        }
 
         final Button button1 = findViewById(R.id.button);
         button1.setOnClickListener( new View.OnClickListener() {
@@ -73,21 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        try {
-            InputStream in_s = getAssets().open("country_continent.csv");
 
-            CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
-
-            String[] nextRow;
-
-            while( (nextRow = reader.readNext() ) != null) {
-
-
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
     }
