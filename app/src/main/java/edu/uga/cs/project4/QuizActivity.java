@@ -9,31 +9,47 @@ import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Calendar;
 import java.util.Random;
 
-public class QuizActivity extends FragmentActivity {
+public class QuizActivity extends AppCompatActivity {
     Context context;
     Quiz quiz;
     int[] randomIndex;
     Question[] temp;
     TextView txt;
+    ViewPager2 v2;
+    QuizSwipeAdapter qa;
+    TabLayout tl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        txt = findViewById(R.id.textView2);
-        txt.setText("");
 
-        RadioButton[] radioButtons = new RadioButton[] {
-                findViewById(R.id.radioButton),
-                findViewById(R.id.radioButton2),
-                findViewById(R.id.radioButton3)
-        };
+        v2 = findViewById(R.id.v_pager);
+        tl = findViewById(R.id.tabLayout);
 
+
+
+
+//        txt = findViewById(R.id.textView2);
+//        txt.setText("");
+//
+//        //connects answer buttons
+//        RadioButton[] radioButtons = new RadioButton[] {
+//                findViewById(R.id.radioButton),
+//                findViewById(R.id.radioButton2),
+//                findViewById(R.id.radioButton3)
+//        };
+//
+        //creates array of non-duplicate id numbers
         Random rand = new Random();
         randomIndex = new int[6];
         int count = 0;
@@ -49,13 +65,19 @@ public class QuizActivity extends FragmentActivity {
 
         quiz = generateQuiz( randomIndex, temp );
 
-        txt.append("" + quiz.quiz[0].getCountry());
-
-        for(int i = 0; i < radioButtons.length; i++) {
-            radioButtons[i].setText(quiz.quiz[0].getChoices()[i]);
-        }
-
-        txt.append(quiz.quiz[0].getAnswer());
+        qa = new QuizSwipeAdapter(this);
+        qa = qa.getInstance(this, quiz);
+        v2.setAdapter(qa);
+//
+//        //sets displayed question (Unfinished)
+//        txt.append("" + quiz.quiz[0].getCountry());
+//
+//        //sets choices to radio buttons from generated quiz
+//        for(int i = 0; i < radioButtons.length; i++) {
+//            radioButtons[i].setText(quiz.quiz[0].getChoices()[i]);
+//        }
+//
+//        txt.append(quiz.quiz[0].getAnswer());
 
         // get the async to work
         // add save functionality
@@ -65,6 +87,7 @@ public class QuizActivity extends FragmentActivity {
 
     }
 
+    //generates a random quiz
     private Quiz generateQuiz(int[] t, Question[] q ) {
         QuizDBHelper db = QuizDBHelper.getInstance(this);
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -83,6 +106,7 @@ public class QuizActivity extends FragmentActivity {
         return new Quiz( q );
     }
 
+    //checks if an array has int x already
     private boolean isDuplicate( int x, int[] xArray) {
         for( int i = 0; i < xArray.length; i++ ) {
             if( x == xArray[i] ) {
@@ -93,6 +117,7 @@ public class QuizActivity extends FragmentActivity {
 
     }
 
+    //saves completed quiz to sql
     private void addCompletedQuiz( Quiz q ) {
         QuizDBHelper db = QuizDBHelper.getInstance(this);
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -107,6 +132,7 @@ public class QuizActivity extends FragmentActivity {
         long id = writeDB.insert(QuizDBHelper.TABLE_QUIZZES, null, cv);
     }
 
+    //used to query data asynchronously
     private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
         Context context;
         Quiz quiz;
