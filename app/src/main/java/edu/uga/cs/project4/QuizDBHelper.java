@@ -13,7 +13,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static QuizDBHelper myInstance;
 
-    // db columns
+    // db: countries tables and columns
     public static final String TABLE_COUNTRIES = "COUNTRIES";
     public static final String COUNTRY_ID ="_id";
     public static final String COUNTRY_NAME = "country_name";
@@ -25,6 +25,19 @@ public class QuizDBHelper extends SQLiteOpenHelper {
             + COUNTRY_NAME + " TEXT, "
             + COUNTRY_CONTINENT + " TEXT "
             + ")";
+
+    // db: quizzes tables and columns
+    public static final String TABLE_QUIZZES = "QUIZZES";
+    public static final String QUIZ_ID ="quiz_id";
+    public static final String QUIZ_DATE = "quiz_date";
+    public static final String QUIZ_SCORE = "quiz_score";
+
+    public static final String CREATE_QUIZZES =
+            "create table " + TABLE_QUIZZES + " ("
+                    + QUIZ_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + QUIZ_DATE + " TEXT, "
+                    + QUIZ_SCORE + " TEXT "
+                    + ")";
 
     private QuizDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -40,11 +53,13 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL( CREATE_COUNTRIES );
+        db.execSQL( CREATE_QUIZZES );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("drop table if exists " + TABLE_COUNTRIES);
+        db.execSQL("drop table if exists " + TABLE_QUIZZES);
         onCreate( db );
     }
 }

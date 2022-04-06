@@ -1,9 +1,6 @@
 package edu.uga.cs.project4;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -16,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.content.Context;
 
 import com.opencsv.CSVReader;
@@ -25,25 +21,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
 public class MainActivity extends AppCompatActivity {
+    Context context;
     public Country[] readCountries = new Country[195];
+    TextView txt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //this test proves pushing works
 
+        this.context = this;
         Resources res = getResources();
 
         ImageView img = (ImageView) findViewById(R.id.imageView);
         img.setImageResource(R.drawable.exquizit);
 
-        TextView txt = findViewById(R.id.textView);
+        txt = findViewById(R.id.textView);
         InputStream in = res.openRawResource(R.raw.splash);
 
+        // read and display splash screen text
         byte[] a = new byte[0];
-
         try {
             a = new byte[in.available()];
             in.read(a);
@@ -51,6 +49,32 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // async task to load database
+        new MyAsyncTask(context).execute();
+
+        // button to go to quiz
+        final Button button1 = findViewById(R.id.button);
+        button1.setOnClickListener( new View.OnClickListener() {
+            public void onClick( View v ) {
+                Intent intent = new Intent( getApplicationContext(), QuizActivity.class );
+                startActivity(intent);
+            }
+        });
+
+        // button to go to results
+        final Button button2 = findViewById(R.id.button2);
+        button2.setOnClickListener( new View.OnClickListener() {
+            public void onClick( View v ) {
+                Intent intent = new Intent( getApplicationContext(), ResultsActivity.class );
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    // method to setup database( COUNTRIES TABLE )
+    public void databaseSetup() {
 
         //opens csv file and inserts values to Country array
         try {
@@ -75,53 +99,38 @@ public class MainActivity extends AppCompatActivity {
         QuizDBHelper db = QuizDBHelper.getInstance(this);
         SQLiteDatabase writeDB = db.getWritableDatabase();
         int count = 0;
-        while (count<195){
+        while (count<195) {
             ContentValues cv = new ContentValues();
             cv.put(QuizDBHelper.COUNTRY_NAME, readCountries[count].name);
             cv.put(QuizDBHelper.COUNTRY_CONTINENT, readCountries[count].continent);
 
             long id = writeDB.insert(QuizDBHelper.TABLE_COUNTRIES, null, cv);
-
+            //str = str + "" + readCountries[count].name + "|" + readCountries[count].continent + "\n";
             readCountries[count].setID(id);
             count++;
         }
-
-        /*Cursor cursor = writeDB.query( "COUNTRIES", new String[]{"country_name"}, null, null, null, null, null, null);
-        cursor.moveToFirst();
-        @SuppressLint("Range") String yeet = cursor.getString( cursor.getColumnIndex("country_name"));
-       // txt.setText( yeet ) ;*/
-
-        final Button button1 = findViewById(R.id.button);
-        button1.setOnClickListener( new View.OnClickListener() {
-            public void onClick( View v ) {
-                Intent intent = new Intent( getApplicationContext(), QuizActivity.class );
-                startActivity(intent);
-            }
-        });
-
-        final Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener( new View.OnClickListener() {
-            public void onClick( View v ) {
-                Intent intent = new Intent( getApplicationContext(), ResultsActivity.class );
-                startActivity(intent);
-            }
-        });
-
-
-
-
-
-
+        //return str;
     }
 
-    private class MyTask extends AsyncTask<String,Integer,String> {
+    private class MyAsyncTask extends AsyncTask<String, String, String> {
+        Context context;
+        String result;
 
-        @Override
-        protected String doInBackground(String... strings) {
-            return null;
+        public MyAsyncTask (Context context) {
+            this.context = context;
         }
+
+        //@Override
+        protected String doInBackground(String... args) {
+            databaseSetup();
+            return "1";
+        }
+
+        protected void onPostExecute(String result) {
+            // implement
+        }
+
+
     }
-
-
 
 }

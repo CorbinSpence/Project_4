@@ -1,9 +1,36 @@
 package edu.uga.cs.project4;
 
 public class Quiz {
-    public Question[] quiz; // references 6 question objects
+    public int score = 0;
+    public int questionsAnswered = 0;
+    public String date = "";
+    public Question[] quiz;
 
-    public Quiz() {
-        // retrieve question objects from database
+    public Quiz( Question[] q ) {
+        quiz = q;
+    }
+
+    public void incrementScore() {
+        score++;
+    }
+
+    public void incrementQuestionsAnswered() {
+        questionsAnswered++;
+    }
+
+    public void setDate( String dt ) {
+        date = dt;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getQuestionsAnswers() {
+        return questionsAnswered;
+    }
+
+    public String getDate() {
+        return date;
     }
 }
