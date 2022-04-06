@@ -10,6 +10,11 @@ public class Quiz {
         quiz = q;
     }
 
+    public Quiz( int sc, String dt) {
+        score = sc;
+        date = dt;
+    }
+
     public void incrementScore() {
         score++;
     }
