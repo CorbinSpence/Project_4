@@ -1,5 +1,7 @@
 package edu.uga.cs.project4;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,9 +48,37 @@ public class SubmitFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_submit, container, false);
+        String id = getArguments().getString("id");
         submissionInfo = v.findViewById(R.id.sub_info);
+        showScore(id);
         submit = v.findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finalizeQuiz(id);
+            }
+        });
+        submit.setText("Submit");
+
         return v;
         
+    }
+    private void finalizeQuiz(String id){
+        QuizDBHelper db = QuizDBHelper.getInstance(getContext());
+        SQLiteDatabase writeDB = db.getWritableDatabase();
+        String date = Calendar.getInstance().getTime().toString();
+
+        writeDB.execSQL("UPDATE "+QuizDBHelper.TABLE_QUIZZES+" SET "+QuizDBHelper.QUIZ_DATE+"="+date+" WHERE "+QuizDBHelper.QUIZ_ID+"="+id);
+    }
+    private void showScore(String id){
+        QuizDBHelper db = QuizDBHelper.getInstance(getContext());
+        SQLiteDatabase writeDB = db.getWritableDatabase();
+        String val = "";
+
+        Cursor cursor = writeDB.rawQuery("SELECT "+QuizDBHelper.QUIZ_SCORE+" FROM "+QuizDBHelper.TABLE_QUIZZES+" WHERE "+QuizDBHelper.QUIZ_ID+"="+id, null);
+        if(cursor.moveToFirst()){
+            val = cursor.getString(0);
+        }
+        submissionInfo.setText("You got "+val+" out of 6");
     }
 }

@@ -64,9 +64,10 @@ public class QuizActivity extends AppCompatActivity {
         temp = new Question[6];
 
         quiz = generateQuiz( randomIndex, temp );
+        long id = addCompletedQuiz(quiz);
 
         qa = new QuizSwipeAdapter(this);
-        qa = qa.getInstance(this, quiz);
+        qa = qa.getInstance(this, quiz, id);
         v2.setAdapter(qa);
 //
 //        //sets displayed question (Unfinished)
@@ -118,7 +119,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     //saves completed quiz to sql
-    private void addCompletedQuiz( Quiz q ) {
+    private long addCompletedQuiz( Quiz q ) {
         QuizDBHelper db = QuizDBHelper.getInstance(this);
         SQLiteDatabase writeDB = db.getWritableDatabase();
 
@@ -130,6 +131,7 @@ public class QuizActivity extends AppCompatActivity {
         cv.put(QuizDBHelper.QUIZ_DATE, q.getDate());
 
         long id = writeDB.insert(QuizDBHelper.TABLE_QUIZZES, null, cv);
+        return id;
     }
 
     //used to query data asynchronously

@@ -10,14 +10,16 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 public class QuizSwipeAdapter extends FragmentStateAdapter {
 
     public Quiz quiz;
+    public long id;
 
     public QuizSwipeAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
-    public QuizSwipeAdapter getInstance(@NonNull FragmentActivity fragmentActivity, Quiz quiz) {
+    public QuizSwipeAdapter getInstance(@NonNull FragmentActivity fragmentActivity, Quiz quiz, long id) {
         QuizSwipeAdapter temp = new QuizSwipeAdapter(fragmentActivity);
         temp.quiz = quiz;
+        temp.id = id;
         return temp;
     }
 
@@ -30,6 +32,7 @@ public class QuizSwipeAdapter extends FragmentStateAdapter {
         String answer = "";
         String[] choices = new String[quiz.quiz[1].getChoices().length];
         b.putString("pos", ""+position);
+        b.putString("id", ""+id);
         switch(position){
             case 0:
                 country = quiz.quiz[0].getCountry();
@@ -62,7 +65,9 @@ public class QuizSwipeAdapter extends FragmentStateAdapter {
                 choices = quiz.quiz[5].getChoices();
                 break;
             case 6:
-                return new SubmitFragment();
+                SubmitFragment temp = new SubmitFragment();
+                temp.setArguments(b);
+                return temp;
         }
         b.putString("country", country);
         b.putString("answer", answer);
