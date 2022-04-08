@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A simple {@link AppCompatActivity} subclass.
+ * Shows quiz results page.
+ */
 public class ResultsActivity extends AppCompatActivity {
     private List<Quiz> quizList;
     private RecyclerView recycler;
@@ -26,7 +30,10 @@ public class ResultsActivity extends AppCompatActivity {
 
     private Context context;
     private long count;
-
+    /**
+     * sets onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,17 +51,15 @@ public class ResultsActivity extends AppCompatActivity {
         recycler.setAdapter(adapter);
 
     }
-
+    /**
+     * This queries the id, date, and score columns from the database. It adds to a quiz array list which
+     * the recycler adapter takes and displays the list.
+     */
     private void accessDB() {
         QuizDBHelper db = QuizDBHelper.getInstance(this);
         SQLiteDatabase writeDB = db.getReadableDatabase();
         long count = DatabaseUtils.queryNumEntries( writeDB, QuizDBHelper.TABLE_QUIZZES );
 
-        /*ContentValues cv = new ContentValues();
-        cv.put(QuizDBHelper.QUIZ_SCORE, "5");
-        cv.put(QuizDBHelper.QUIZ_DATE, "April 1, 2022");
-
-        long id = writeDB.insert(QuizDBHelper.TABLE_QUIZZES, null, cv);*/
 
         Cursor cursor = writeDB.rawQuery( "SELECT quiz_id, quiz_date, quiz_score FROM QUIZZES", null);
         if(cursor.moveToFirst()) {
@@ -62,7 +67,6 @@ public class ResultsActivity extends AppCompatActivity {
                 String column1 = cursor.getString(0);
                 String column2 = cursor.getString(1);
                 String column3 = cursor.getString(2);
-                //txt.append(column1);
                 quizList.add(
                         new Quiz(Integer.parseInt(column3), column2)
                 );
@@ -70,7 +74,9 @@ public class ResultsActivity extends AppCompatActivity {
         }
 
     }
-
+    /**
+     * Used for Asynchronously setting up the database to be presented to the recycler view.
+     */
     private class MyAsyncTask extends AsyncTask<String, String, String> {
         Context context;
         // String result;

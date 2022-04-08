@@ -28,26 +28,40 @@ public class SubmitFragment extends Fragment {
     TextView submissionInfo;
     Button submit;
     String id;
-   
+    /**
+     * Basic constructor
+     */
     public SubmitFragment() {
         // Required empty public constructor
     }
 
-   
-    public static SubmitFragment newInstance(String param1, String param2) {
+    /**
+     * Instance method to get {@link SubmitFragment}
+     * @return  new instance
+     */
+    public static SubmitFragment newInstance() {
         SubmitFragment fragment = new SubmitFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
-
+    /**
+     * sets onCreate
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
     }
-
+    /**
+     * sets onCreateView
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return  The inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,6 +86,10 @@ public class SubmitFragment extends Fragment {
         return v;
         
     }
+    /**
+     * Sets final values of current quiz and exits from the quiz to the results
+     * @param id current quiz id
+     */
     private void finalizeQuiz(String id){
         QuizDBHelper db = QuizDBHelper.getInstance(getContext());
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -79,6 +97,10 @@ public class SubmitFragment extends Fragment {
 
         writeDB.execSQL("UPDATE "+QuizDBHelper.TABLE_QUIZZES+" SET "+QuizDBHelper.QUIZ_DATE+"='"+date+"' WHERE "+QuizDBHelper.QUIZ_ID+"="+id);
     }
+    /**
+     * sets textview value so that it shows the quiz result
+     * @param id current quiz id
+     */
     private void showScore(String id){
         QuizDBHelper db = QuizDBHelper.getInstance(getContext());
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -90,6 +112,9 @@ public class SubmitFragment extends Fragment {
         }
         submissionInfo.setText("You got "+val+" out of 6");
     }
+    /**
+     * Used for Asynchronously setting the quiz score to the textview
+     */
     private class AsyncSetScore extends AsyncTask<String, String, String> {
         Context context;
         String result;

@@ -31,22 +31,35 @@ public class QuizFragment extends Fragment {
     boolean pointGiven = false;
     String id;
 
-
+    /**
+     * Basic constructor
+     */
     public QuizFragment() {
         // Required empty public constructor
     }
-
+    /**
+     * Instance method to get {@link QuizFragment}
+     */
     public static QuizFragment newInstance() {
         QuizFragment fragment = new QuizFragment();
         return fragment;
     }
-
+    /**
+     * sets onCreate
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
+    /**
+     * sets onCreateView
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return  The inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,7 +101,10 @@ public class QuizFragment extends Fragment {
         });
         return v;
     }
-
+    /**
+     * Adds points to current quiz by updating database
+     * @param id
+     */
     private void addPoint(String id) {
         QuizDBHelper db = QuizDBHelper.getInstance(getContext());
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -103,7 +119,10 @@ public class QuizFragment extends Fragment {
         Log.d(TAG, "New added value: " + val);
         writeDB.execSQL("UPDATE " + QuizDBHelper.TABLE_QUIZZES + " SET " + QuizDBHelper.QUIZ_SCORE + "=" + val + " WHERE " + QuizDBHelper.QUIZ_ID + "=" + id);
     }
-
+    /**
+     * Subtracts points from current quiz by updating database
+     * @param id
+     */
     private void subtractPoint(String id) {
         QuizDBHelper db = QuizDBHelper.getInstance(getContext());
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -118,7 +137,9 @@ public class QuizFragment extends Fragment {
         Log.d(TAG, "New subtracted value: " + val);
         writeDB.execSQL("UPDATE " + QuizDBHelper.TABLE_QUIZZES + " SET " + QuizDBHelper.QUIZ_SCORE + "=" + val + " WHERE " + QuizDBHelper.QUIZ_ID + "=" + id);
     }
-
+    /**
+     * Used for Asynchronously adding quiz points
+     */
     private class AsyncAddScore extends AsyncTask<String, String, String> {
         Context context;
         String result;
@@ -137,7 +158,9 @@ public class QuizFragment extends Fragment {
             // implement
         }
     }
-
+    /**
+     * Used for Asynchronously subtracting quiz points
+     */
     private class AsyncSubtractScore extends AsyncTask<String, String, String> {
         Context context;
         String result;
