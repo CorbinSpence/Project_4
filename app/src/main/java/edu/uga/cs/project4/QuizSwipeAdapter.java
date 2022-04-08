@@ -3,23 +3,35 @@ package edu.uga.cs.project4;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A simple {@link FragmentStateAdapter} subclass.
+ * Shows quiz questions and submit page.
+ */
 public class QuizSwipeAdapter extends FragmentStateAdapter {
 
     public Quiz quiz;
     public long id;
     public List<Fragment> list;
-
+    /**
+     * Basic constructor
+     */
     public QuizSwipeAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
-
+    /**
+     * Instance method to get {@link QuizSwipeAdapter}
+     * @param fragmentActivity
+     * @param quiz
+     * @param id
+     * @return  new instance
+     */
     public QuizSwipeAdapter getInstance(@NonNull FragmentActivity fragmentActivity, Quiz quiz, long id) {
         QuizSwipeAdapter temp = new QuizSwipeAdapter(fragmentActivity);
         temp.quiz = quiz;
@@ -51,6 +63,10 @@ public class QuizSwipeAdapter extends FragmentStateAdapter {
 
     @NonNull
     @Override
+    /**
+     * Gets swipe fragment at current position
+     * @return  fragment at position
+     */
     public Fragment createFragment(int position) {
 //        QuizFragment frag = new QuizFragment();
 //        Bundle b = new Bundle();
@@ -103,7 +119,10 @@ public class QuizSwipeAdapter extends FragmentStateAdapter {
 
         return list.get(position);
     }
-
+    /**
+     * Returns item count
+     * @return  item count
+     */
     @Override
     public int getItemCount() {
         return 7;

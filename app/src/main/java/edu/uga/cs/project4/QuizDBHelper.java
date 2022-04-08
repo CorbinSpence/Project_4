@@ -5,7 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+/**
+ * A simple {@link SQLiteOpenHelper} subclass.
+ * Allows the program to efficiently make references to the quiz and country tables.
+ */
 public class QuizDBHelper extends SQLiteOpenHelper {
 
     // db information
@@ -42,20 +47,32 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     private QuizDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
-
+    /**
+     * Instance method to get {@link QuizSwipeAdapter}
+     * @param context
+     * @return  new instance
+     */
     public static synchronized QuizDBHelper getInstance( Context context ) {
         if( myInstance == null ) {
             myInstance = new QuizDBHelper( context.getApplicationContext() );
         }
         return myInstance;
     }
-
+    /**
+     * sets onCreate
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL( CREATE_COUNTRIES );
         db.execSQL( CREATE_QUIZZES );
     }
-
+    /**
+     * sets onUpgrade
+     * @param db
+     * @param i
+     * @param i1
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("drop table if exists " + TABLE_COUNTRIES);
