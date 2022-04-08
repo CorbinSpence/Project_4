@@ -18,6 +18,10 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Calendar;
 import java.util.Random;
 
+/**
+ * Quiz Activity, has swiping pages which holds view objects
+ * for the text and question buttons.
+ */
 public class QuizActivity extends AppCompatActivity {
     Context context;
     Quiz quiz;
@@ -28,6 +32,12 @@ public class QuizActivity extends AppCompatActivity {
     QuizSwipeAdapter qa;
     TabLayout tl;
 
+    /**
+     * sets a view pager and adapter to create the pages for the quiz
+     * also creates a quiz object which is used to generate the
+     * text and labels for the view objects.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +46,6 @@ public class QuizActivity extends AppCompatActivity {
         v2 = findViewById(R.id.v_pager);
         tl = findViewById(R.id.tabLayout);
 
-
-
-
-//        txt = findViewById(R.id.textView2);
-//        txt.setText("");
-//
-//        //connects answer buttons
-//        RadioButton[] radioButtons = new RadioButton[] {
-//                findViewById(R.id.radioButton),
-//                findViewById(R.id.radioButton2),
-//                findViewById(R.id.radioButton3)
-//        };
-//
         //creates array of non-duplicate id numbers
         Random rand = new Random();
         randomIndex = new int[6];
@@ -69,26 +66,16 @@ public class QuizActivity extends AppCompatActivity {
         qa = new QuizSwipeAdapter(this);
         qa = qa.getInstance(this, quiz, id);
         v2.setAdapter(qa);
-//
-//        //sets displayed question (Unfinished)
-//        txt.append("" + quiz.quiz[0].getCountry());
-//
-//        //sets choices to radio buttons from generated quiz
-//        for(int i = 0; i < radioButtons.length; i++) {
-//            radioButtons[i].setText(quiz.quiz[0].getChoices()[i]);
-//        }
-//
-//        txt.append(quiz.quiz[0].getAnswer());
-
-        // get the async to work
-        // add save functionality
-        // set radio button correct option
-        // swipe functionality, viewpager
-        // results
 
     }
 
-    //generates a random quiz
+    /**
+     * Creates and returns a quiz by reading countries from the database using a list of random
+     * ids(t param).
+     * @param t an int array of randomized and non-duplicate ids
+     * @param q an empty array of questions, used to created quiz object
+     * @return returns a new quiz
+     */
     private Quiz generateQuiz(int[] t, Question[] q ) {
         QuizDBHelper db = QuizDBHelper.getInstance(this);
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -107,7 +94,12 @@ public class QuizActivity extends AppCompatActivity {
         return new Quiz( q );
     }
 
-    //checks if an array has int x already
+    /**
+     * checks if an int occurs within a given int[]
+     * @param x
+     * @param xArray
+     * @return boolean
+     */
     private boolean isDuplicate( int x, int[] xArray) {
         for( int i = 0; i < xArray.length; i++ ) {
             if( x == xArray[i] ) {
@@ -118,7 +110,11 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    //saves completed quiz to sql
+    /**
+     * adds a completed quiz to the database, inserts the quiz score and current date
+     * @param q
+     * @return long
+     */
     private long addCompletedQuiz( Quiz q ) {
         QuizDBHelper db = QuizDBHelper.getInstance(this);
         SQLiteDatabase writeDB = db.getWritableDatabase();
@@ -134,7 +130,9 @@ public class QuizActivity extends AppCompatActivity {
         return id;
     }
 
-    //used to query data asynchronously
+    /**
+     * async task used to query database.
+     */
     private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
         Context context;
         Quiz quiz;

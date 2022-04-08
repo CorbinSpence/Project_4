@@ -72,7 +72,7 @@ public class QuizFragment extends Fragment {
         String answer = getArguments().getString("answer");
         String[] choices = getArguments().getStringArray("choices");
         id = getArguments().getString("id");
-        quizQuestion.setText("What continent is " + country + "located in?");
+        quizQuestion.setText("What continent is " + country + " located in?");
         this.choices = new RadioButton[3];
         this.choices[0] = v.findViewById(R.id.radioButton);
         this.choices[1] = v.findViewById(R.id.radioButton2);
