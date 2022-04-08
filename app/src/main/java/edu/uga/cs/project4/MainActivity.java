@@ -21,11 +21,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * The MainActivity class, contains the splash screen, intro text, and two buttons that go to
+ * the quiz activity and results activity
+ */
 public class MainActivity extends AppCompatActivity {
     Context context;
     public Country[] readCountries = new Country[195];
     TextView txt;
 
+    /**
+     * sets up view objects: text, images, and buttons
+     * buttons lead to quiz and results
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * method for creating the SQLite database, the country_name and country_continent values
+     * are read from a csv file and entered into a the COUNTRIES table of our database.
+     */
     // method to setup database( COUNTRIES TABLE )
     public void databaseSetup() {
 
@@ -112,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
         //return str;
     }
 
+    /**
+     * Async task, uses the database setup method
+     */
     private class MyAsyncTask extends AsyncTask<String, String, String> {
         Context context;
         String result;
