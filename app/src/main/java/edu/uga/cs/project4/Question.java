@@ -2,10 +2,15 @@ package edu.uga.cs.project4;
 
 import java.util.Random;
 
+/**
+ * Question class
+ * contains the variables for a question object
+ * and creates 2 random choices and 1 correct
+ */
 public class Question {
     private String country_name;        // country: question prompt
     private String country_continent;   // continent: the correct answer
-    private String[] choices = new String[] {"1","2","3"};
+    private String[] choices = new String[] {"1","2","3"};  // the countries in the choices
     private static String[] continents = new String[] {
             "Asia",
             "Africa",
@@ -15,6 +20,12 @@ public class Question {
             "South America"
     };
 
+    /**
+     * Question constructor, creating a question object with entered parameters
+     * will initialize name, continent, and choices array
+     * @param name
+     * @param continent
+     */
     public Question( String name, String continent ) {
         country_name = name;
         country_continent = continent;
@@ -42,6 +53,12 @@ public class Question {
 
     }
 
+    /**
+     * Checks if a String occurs within a given array.
+     * @param t
+     * @param c
+     * @return
+     */
     private boolean isDuplicate( String t, String[] c) {
         for( int i = 0; i < c.length; i++ ) {
             if( t.equals(c[i]) ) {
@@ -51,14 +68,28 @@ public class Question {
         return false;
     }
 
+    /**
+     * gets country method
+     * @return country_name
+     */
     public String getCountry() {
         return country_name;
     }
 
+    /**
+     * get answer method, answer being the continent that the country
+     * is a part of
+     * @return country_continent
+     */
     public String getAnswer() {
         return country_continent;
     }
 
+    /**
+     * get choices method, returns an array that contains the choices
+     * for a given question object.
+     * @return choices array
+     */
     public String[] getChoices() {
         return choices;
     }
